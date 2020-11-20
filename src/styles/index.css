@@ -1,0 +1,55 @@
+body {
+  margin: 20px;
+  padding: 0;
+  font-family: sans-serif;
+}
+.clear {
+  clear: both;
+  content: "";
+}
+
+.board {
+  padding: 2em;
+  /* background-color: gray; */
+  border-radius: 29px;
+}
+
+.board > div {
+  display: inline;
+  /* width: 100%; */
+}
+
+.game {
+  display: flex;
+  justify-content: center;
+}
+
+.game-info {
+  min-height: 50px;
+}
+
+.cell {
+  background: white;
+  border: 1px solid lightgray;
+  float: left;
+  line-height: 34px;
+  height: 34px;
+  text-align: center;
+  width: 34px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 0.2rem;
+}
+
+.cell:focus {
+  outline: none;
+}
+
+.hidden {
+  background: lightgray;
+}
+
+.is-flag,
+.is-mine {
+  color: #fc543c;
+}
