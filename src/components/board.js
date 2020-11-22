@@ -1,6 +1,11 @@
 import React from "react"
 import Cell from "../components/cell"
 
+import fire from "./images/fire.png"
+import win from "./images/win.png"
+import normal from "./images/normal.png"
+import lose from "./images/lose.png"
+
 export default class Board extends React.Component {
   state = {
     boardData: this.initBoardData(
@@ -9,6 +14,7 @@ export default class Board extends React.Component {
       this.props.mines
     ),
     gameWon: false,
+    gameLost: false,
     mineCount: this.props.mines,
     isFinal: false,
   }
@@ -218,6 +224,7 @@ export default class Board extends React.Component {
 
     // check if mine. game over if true
     if (this.state.boardData[x][y].isMine) {
+      this.state.gameLost = true
       this.revealBoard()
       this.state.boardData[x][y].isFinal = true
       alert("game over")
@@ -313,15 +320,68 @@ export default class Board extends React.Component {
     }
   }
 
+  restartGame = lost => {
+    this.setState({
+      boardData: this.initBoardData(
+        this.props.height,
+        this.props.width,
+        this.props.mines
+      ),
+      gameWon: false,
+      gameLost: false,
+      mineCount: this.props.mines,
+      isFinal: false,
+    })
+  }
+
   render() {
     return (
       <div className="board">
-        <div className="game-info">
-          <span className="info">mines: {this.state.mineCount}</span>
-          <br />
-          <span className="info">{this.state.gameWon ? "You Win" : ""}</span>
+        <div className="game-stats">
+          <div
+            className={["info-parent mb-1", "gameState"].join(" ")}
+            onClick={() => this.restartGame(this.state.gameLost)}
+          >
+            <div className="">
+              <span className="game-emoji">
+                {this.state.gameWon ? (
+                  <div className="endstate">
+                    <img src={fire} />
+                    <img src={win} />
+                    YOU WIN
+                    <img src={win} />
+                    <img src={fire} />
+                  </div>
+                ) : this.state.gameLost ? (
+                  <div className="endstate">
+                    <img src={lose} />
+                    GAME OVER
+                    <img src={lose} />
+                  </div>
+                ) : (
+                  <img src={normal} />
+                )}
+              </span>
+            </div>
+          </div>
         </div>
         {this.renderBoard(this.state.boardData)}
+        <div className="game-stats mt-1">
+          <div className="info-parent">
+            <div className="info">
+              {this.state.mineCount}
+              <span className="info-title">mines</span>
+            </div>
+            <div className="info">
+              8X8
+              <span className="info-title">grid</span>
+            </div>
+            <div className="info">
+              Easy
+              <span className="info-title">difficulty</span>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

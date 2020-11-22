@@ -12,9 +12,14 @@ export default class Game extends React.Component {
   render() {
     const { height, width, mines } = this.state
     return (
-      <div className="game">
-        <Board height={height} width={width} mines={mines} />
-      </div>
+      <>
+        <h1 className="game-heading">Minesweeper</h1>
+        <div className="game">
+          <div className="board-parent">
+            <Board height={height} width={width} mines={mines} />
+          </div>
+        </div>
+      </>
     )
   }
 }

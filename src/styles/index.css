@@ -1,3 +1,4 @@
+@import url("http://fonts.cdnfonts.com/css/helsinki");
 body {
   margin: 20px;
   padding: 0;
@@ -9,14 +10,28 @@ body {
 }
 
 .board {
-  padding: 2em;
-  /* background-color: gray; */
-  border-radius: 29px;
+  /* padding: 2em;
+   background-color: gray;
+  border-radius: 29px; */
+}
+
+.game-heading {
+  display: flex;
+  justify-content: center;
+  font-family: "Helsinki", sans-serif;
 }
 
 .board > div {
   display: inline;
   /* width: 100%; */
+}
+
+.mt-1 {
+  margin-top: 1em;
+}
+
+.mb-1 {
+  margin-bottom: 1em;
 }
 
 .game {
@@ -58,6 +73,41 @@ body {
   background-color: red;
 }
 
+.board-parent {
+  display: flex;
+  border: 4px lightgray solid;
+  border-radius: 9px;
+  /* padding: 0.5em; */
+}
+
+.game-stats {
+  display: block !important;
+  /* background-color: lightgray;
+  
+  padding: 0.6em 0;
+  margin-top: 0.8em; */
+}
+
+.info-parent {
+  display: flex;
+  justify-content: space-around;
+  background-color: lightgray;
+  /* display: block; */
+  padding: 0.6em 0 0 0;
+}
+
+.info {
+  text-align: center;
+  font-weight: 700;
+}
+
+.info-title {
+  display: block;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 12px;
+}
+
 .sweeper-icons {
   display: flex;
   width: 100%;
@@ -69,4 +119,19 @@ body {
 .sweeper-icons img {
   width: 24px;
   height: 24px;
+}
+
+.gameState {
+  padding: 0;
+}
+
+.game-emoji img {
+  width: 40px;
+  height: 40px;
+}
+
+.endstate {
+  display: flex;
+  align-items: center;
+  font-family: "Helsinki", sans-serif;
 }

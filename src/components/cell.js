@@ -1,8 +1,13 @@
-import React from "react"
+import React, { useRef, createRef } from "react"
 
 import Bomb from "./images/bomb.png"
 import Flag from "./images/flag.png"
 export default class Cell extends React.Component {
+  constructor(props) {
+    super(props)
+    this.myRef = React.createRef()
+  }
+
   getCellValue() {
     if (!this.props.value.isRevealed) {
       return this.props.value.isFlagged ? (
@@ -34,7 +39,7 @@ export default class Cell extends React.Component {
 
     return (
       <div
-        ref="cell"
+        ref={this.myRef}
         onClick={this.props.onClick}
         className={className}
         onContextMenu={this.props.cMenu}
