@@ -3,7 +3,7 @@
 body {
   margin: 20px;
   padding: 0;
-  font-family: sans-serif;
+  font-family: "Helsinki", sans-serif;
 }
 .clear {
   clear: both;
@@ -161,4 +161,16 @@ body {
 
 .saveChanges {
   text-align: right;
+}
+
+.modal-header .close:focus {
+  outline: none;
+}
+
+.modal-header .close span::after {
+  content: "X";
+}
+
+.how-to-play ul li {
+  padding: 1em 0;
 }

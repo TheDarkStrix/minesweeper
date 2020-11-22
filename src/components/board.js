@@ -382,7 +382,7 @@ export default class Board extends React.Component {
               <span className="info-title">mines</span>
             </div>
             <div className="info">
-              8X8
+              {this.props.height}X{this.props.width}
               <span className="info-title">grid</span>
             </div>
             <div className="info">

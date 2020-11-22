@@ -59,18 +59,18 @@ export default class Game extends React.Component {
         break
       case "medium":
         this.setState({
-          height: 10,
-          width: 10,
-          mines: 14,
+          height: 12,
+          width: 12,
+          mines: 18,
           difficulty: "medium",
         })
         this.handleClose()
         break
       case "hard":
         this.setState({
-          height: 16,
-          width: 16,
-          mines: 40,
+          height: 20,
+          width: 20,
+          mines: 80,
           difficulty: "hard",
         })
         this.handleClose()
@@ -125,7 +125,36 @@ export default class Game extends React.Component {
                           </Button>
                         </div>
                       </Tab.Pane>
-                      <Tab.Pane eventKey="second">asdasd</Tab.Pane>
+                      <Tab.Pane eventKey="second">
+                        <div class="how-to-play">
+                          <h4>Rules</h4>
+                          <ul>
+                            <li>
+                              You are presented with a board of squares. Some
+                              squares contain mines (bombs), others don't. If
+                              you click on a square containing a bomb, you lose.
+                              If you manage to click all the squares (without
+                              clicking on any bombs) or flag all the mines, you
+                              win.
+                            </li>
+                            <li>
+                              Clicking a square which doesn't have a bomb
+                              reveals the number of neighbouring squares
+                              containing bombs. Use this information plus some
+                              guess work to avoid the bombs.
+                            </li>
+                            <li>
+                              To open a square, point at the square and click on
+                              it. To mark a square you think is a bomb, right
+                              click on it.
+                            </li>
+                            <li>
+                              On completing the game, click on the emoji bar to
+                              restart the game.
+                            </li>
+                          </ul>
+                        </div>
+                      </Tab.Pane>
                     </Tab.Content>
                   </Col>
                 </Row>
