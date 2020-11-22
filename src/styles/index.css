@@ -1,5 +1,5 @@
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-@import url("http://fonts.cdnfonts.com/css/helsinki");
+@import url("https://fonts.cdnfonts.com/css/helsinki");
 body {
   margin: 20px;
   padding: 0;
@@ -126,6 +126,7 @@ body {
 
 .gameState {
   padding: 0;
+  cursor: pointer;
 }
 
 .game-emoji img {
