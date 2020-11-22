@@ -1,3 +1,4 @@
+@import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import url("http://fonts.cdnfonts.com/css/helsinki");
 body {
   margin: 20px;
@@ -78,6 +79,7 @@ body {
   border: 4px lightgray solid;
   border-radius: 9px;
   /* padding: 0.5em; */
+  position: relative;
 }
 
 .game-stats {
@@ -99,6 +101,7 @@ body {
 .info {
   text-align: center;
   font-weight: 700;
+  text-transform: capitalize;
 }
 
 .info-title {
@@ -134,4 +137,28 @@ body {
   display: flex;
   align-items: center;
   font-family: "Helsinki", sans-serif;
+}
+
+.settings {
+  background-color: black;
+  display: inline-flex;
+  border-radius: 50%;
+  padding: 0.6em;
+  position: absolute;
+  /* right: 1em; */
+  /* top: 1em; */
+  top: -10px;
+  right: -10px;
+  /* justify-content: center; */
+  /* align-items: center; */
+  margin: 0 auto;
+  color: white;
+}
+
+.modal-open {
+  padding-right: 0 !important;
+}
+
+.saveChanges {
+  text-align: right;
 }
