@@ -54,6 +54,10 @@ body {
   color: #fc543c;
 }
 
+.is-final {
+  background-color: red;
+}
+
 .sweeper-icons {
   display: flex;
   width: 100%;

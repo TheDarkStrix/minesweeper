@@ -10,6 +10,7 @@ export default class Board extends React.Component {
     ),
     gameWon: false,
     mineCount: this.props.mines,
+    isFinal: false,
   }
 
   /* Helper Functions */
@@ -218,6 +219,7 @@ export default class Board extends React.Component {
     // check if mine. game over if true
     if (this.state.boardData[x][y].isMine) {
       this.revealBoard()
+      this.state.boardData[x][y].isFinal = true
       alert("game over")
     }
 

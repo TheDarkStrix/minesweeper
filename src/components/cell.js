@@ -13,7 +13,7 @@ export default class Cell extends React.Component {
     }
     if (this.props.value.isMine) {
       return (
-        <span class="sweeper-icons">
+        <span className="sweeper-icons">
           <img src={Bomb} />
         </span>
       )
@@ -29,6 +29,7 @@ export default class Cell extends React.Component {
       "cell" +
       (this.props.value.isRevealed ? "" : " hidden") +
       (this.props.value.isMine ? " is-mine" : "") +
+      (this.props.value.isFinal ? " is-final" : "") +
       (this.props.value.isFlagged ? " is-flag" : "")
 
     return (
