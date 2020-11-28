@@ -1,0 +1,9 @@
+.cell {
+  width: 35px;
+  height: 35px;
+  background: #eee;
+}
+.cell .mine {
+  background-color: tomato;
+  color: white;
+}

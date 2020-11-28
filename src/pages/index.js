@@ -1,5 +1,8 @@
-import React from "react"
+import React, { Component } from "react"
+import Game from "../components/game/game"
 
-export default function Home() {
-  return <div>Hello world!</div>
+export default class extends Component {
+  render() {
+    return <Game />
+  }
 }
