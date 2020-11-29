@@ -6,6 +6,7 @@ export default class Game extends Component {
   constructor(props) {
     super(props)
     this.state = this.getInitialState()
+    this.sudoMode = this.sudoMode.bind(this)
   }
 
   restartGame(...args) {
@@ -155,6 +156,18 @@ export default class Game extends Component {
     })
   }
 
+  sudoMode() {
+    if (this.state.solution != null) {
+      console.log(this.state.solution)
+      this.setGameOver(
+        this.state.board,
+        this.state.solution,
+        this.state.row,
+        this.state.column
+      )
+    }
+  }
+
   generateGame(height, width, currentRow, currentColumn, mines) {
     const board = this.generateArray(height, width, 0)
     let generatedMines = 0
@@ -225,6 +238,7 @@ export default class Game extends Component {
           board={this.state.board}
           gameOver={this.state.gameOver}
         />
+        <button onClick={this.sudoMode}>Reveal Mines</button>
       </div>
     )
   }
