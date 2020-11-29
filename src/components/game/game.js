@@ -18,6 +18,7 @@ export default class Game extends Component {
       sudoMode: this.generateGame(),
       game: this.generateArray(null),
       gameOver: false,
+      status: "🙂",
     }
   }
 
@@ -33,9 +34,7 @@ export default class Game extends Component {
 
     this.reveal(game, row, column)
 
-    //if clicked cell is a mine, set game Over
-    const gameOver = this.isMine(game, row, column)
-    this.setState({ game: game, gameOver: gameOver })
+    this.updateGameStatus(game, row, column)
   }
 
   reveal(cells, row, column) {
@@ -54,10 +53,10 @@ export default class Game extends Component {
 
   expand(cells, row, column) {
     // reveal touching cells of a cell
-    this.reveal(cells, row - 1, column)
-    this.reveal(cells, row + 1, column)
     this.reveal(cells, row, column - 1)
     this.reveal(cells, row, column + 1)
+    this.reveal(cells, row - 1, column)
+    this.reveal(cells, row + 1, column)
     this.reveal(cells, row - 1, column - 1)
     this.reveal(cells, row - 1, column + 1)
     this.reveal(cells, row + 1, column + 1)
@@ -76,6 +75,35 @@ export default class Game extends Component {
     )
   }
 
+  updateGameStatus(cells, row, column) {
+    if (this.isMine(cells, row, column)) {
+      return this.setState({
+        game: cells,
+        gameOver: true,
+        status: "💀",
+      })
+    }
+
+    const gameOver = !this.continueGame(cells)
+    const gameStatus = gameOver ? "😎" : this.state.status
+
+    if (gameOver) {
+      cells = cells.map(row => row.map(cell => (cell !== null ? cell : "🚩")))
+    }
+
+    this.setState({
+      game: cells,
+      gameOver: gameOver,
+      status: gameStatus,
+    })
+  }
+
+  continueGame(cells) {
+    // checks if player can continue the game
+    //console.log(Array.isArray(cells))
+    return cells.flat().filter(cell => cell === null).length > mines
+  }
+
   generateGame() {
     const cells = this.generateArray(0)
     let generatedMines = 0
@@ -89,10 +117,10 @@ export default class Game extends Component {
       if (!this.isMine(cells, row, column)) {
         cells[row][column] = "B"
         // after placing mine, increment touching cells
-        this.incrementCell(cells, row - 1, column)
-        this.incrementCell(cells, row + 1, column)
         this.incrementCell(cells, row, column - 1)
         this.incrementCell(cells, row, column + 1)
+        this.incrementCell(cells, row - 1, column)
+        this.incrementCell(cells, row + 1, column)
         this.incrementCell(cells, row - 1, column - 1)
         this.incrementCell(cells, row - 1, column + 1)
         this.incrementCell(cells, row + 1, column + 1)
@@ -124,7 +152,7 @@ export default class Game extends Component {
       <div className="game">
         <div>
           <button onClick={() => this.setState(this.getInitialState())}>
-            {this.state.gameOver ? "X" : "D"}
+            {this.state.status}
           </button>
         </div>
         <Board
