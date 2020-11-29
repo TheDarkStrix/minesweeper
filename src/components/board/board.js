@@ -8,6 +8,7 @@ export default class Board extends Component {
         key={row + "*" + column}
         value={value}
         onClick={() => this.props.onClick(row, column)}
+        onRightClick={event => this.props.onRightClick(event, row, column)}
       />
     )
   }

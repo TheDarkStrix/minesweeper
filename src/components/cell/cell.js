@@ -13,6 +13,7 @@ export default function Cell(props) {
           : "")
       }
       onClick={props.onClick}
+      onContextMenu={props.onRightClick}
     >
       {props.value ? props.value : ""}
     </button>

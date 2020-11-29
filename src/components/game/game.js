@@ -2,11 +2,11 @@ import React, { Component } from "react"
 import "./game.css"
 import Board from "../board/board"
 
-const height = 9
-const width = 9
-const mines = 10
-
 export default class Game extends Component {
+  height = 9
+  width = 9
+  mines = 10
+
   constructor(props) {
     super(props)
     this.state = this.getInitialState()
@@ -18,7 +18,8 @@ export default class Game extends Component {
       sudoMode: this.generateGame(),
       game: this.generateArray(null),
       gameOver: false,
-      status: "🙂",
+      gameStatus: "🙂",
+      minesCount: this.mines,
     }
   }
 
@@ -37,13 +38,27 @@ export default class Game extends Component {
     this.updateGameStatus(game, row, column)
   }
 
+  handleRightClick(event, row, column) {
+    const game = this.state.game.slice()
+    event.preventDefault()
+
+    let value = game[row][column]
+    if (this.state.gameOver || (value !== null && value !== "🚩")) {
+      return
+    }
+
+    game[row][column] = value ? null : "🚩"
+    const minesCount = this.state.minesCount + (game[row][column] ? -1 : 1)
+
+    this.setState({ ...game, minesCount })
+  }
+
   reveal(cells, row, column) {
     if (!this.inRange(row, column) || cells[row][column] !== null) {
       return
     }
 
     cells[row][column] = this.state.sudoMode[row][column]
-
     //reveal if cell value is 0
     if (cells[row][column] === 0) {
       this.expand(cells, row, column)
@@ -63,45 +78,74 @@ export default class Game extends Component {
     this.reveal(cells, row + 1, column - 1)
   }
 
-  randomInRange(minimum, maximum) {
-    // generate random in board
-    return Math.round(Math.random() * (maximum - minimum) + minimum)
-  }
-
-  generateArray(value) {
-    // [][]
-    return Array.from({ length: height }, () =>
-      Array.from({ length: width }, () => value)
-    )
-  }
-
   updateGameStatus(cells, row, column) {
     if (this.isMine(cells, row, column)) {
+      cells = cells.map((row, rowKey) =>
+        row.map((cell, cellKey) => {
+          const isMine = this.isMine(this.state.sudoMode, rowKey, cellKey)
+          if (cell === "🚩") {
+            // if flag placed at wrong mine cell
+            return isMine ? cell : "❌"
+          }
+
+          return isMine ? "B" : cell
+        })
+      )
+
       return this.setState({
         game: cells,
         gameOver: true,
-        status: "💀",
+        gameStatus: "💀",
       })
     }
 
+    //check if game is won
     const gameOver = !this.continueGame(cells)
-    const gameStatus = gameOver ? "😎" : this.state.status
+    const gameStatus = gameOver ? "😎" : this.state.gameStatus
+    let minesCount = this.state.minesCount
 
     if (gameOver) {
-      cells = cells.map(row => row.map(cell => (cell !== null ? cell : "🚩")))
+      cells = this.getPlacedBombs(cells, "🚩")
+      minesCount = 0
     }
 
     this.setState({
       game: cells,
       gameOver: gameOver,
-      status: gameStatus,
+      gameStatus: gameStatus,
+      minesCount: minesCount,
     })
+  }
+
+  getPlacedBombs(cells, symbol) {
+    return cells.map((row, rowKey) =>
+      row.map((cell, cellKey) =>
+        this.isMine(this.state.sudoMode, rowKey, cellKey)
+          ? symbol
+          : this.state.sudoMode[rowKey][cellKey]
+      )
+    )
   }
 
   continueGame(cells) {
     // checks if player can continue the game
     //console.log(Array.isArray(cells))
-    return cells.flat().filter(cell => cell === null).length > mines
+    return (
+      cells.flat().filter(cel => cel === null || cel === "🚩").length >
+      this.mines
+    )
+  }
+
+  randomInRange(minimum, maximum) {
+    // generate random in board
+    return Math.round(Math.random() * (maximum - minimum) + minimum)
+  }
+
+  // [][]
+  generateArray(value) {
+    return Array.from({ length: this.height }, () =>
+      Array.from({ length: this.width }, () => value)
+    )
   }
 
   generateGame() {
@@ -110,9 +154,9 @@ export default class Game extends Component {
     let row
     let column
 
-    while (generatedMines < mines) {
-      row = this.randomInRange(0, height - 1)
-      column = this.randomInRange(0, width - 1)
+    while (generatedMines < this.mines) {
+      row = this.randomInRange(0, this.height - 1)
+      column = this.randomInRange(0, this.width - 1)
 
       if (!this.isMine(cells, row, column)) {
         cells[row][column] = "B"
@@ -143,20 +187,25 @@ export default class Game extends Component {
   }
 
   inRange(row, column) {
-    // value inside board
-    return row >= 0 && column >= 0 && row < height && column < width
+    // return boolean if inside board
+    return row >= 0 && column >= 0 && row < this.height && column < this.width
   }
 
   render() {
     return (
       <div className="game">
         <div>
-          <button onClick={() => this.setState(this.getInitialState())}>
-            {this.state.status}
-          </button>
+          <div>
+            <button onClick={() => this.setState(this.getInitialState())}>
+              {this.state.gameStatus}
+            </button>
+          </div>
         </div>
         <Board
           onClick={(row, column) => this.handleClick(row, column)}
+          onRightClick={(event, row, column) =>
+            this.handleRightClick(event, row, column)
+          }
           game={this.state.game}
         />
         <button onClick={() => console.log(this.state.sudoMode)}>
