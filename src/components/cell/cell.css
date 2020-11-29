@@ -1,9 +1,82 @@
 .cell {
+  border-radius: 4px;
   width: 35px;
   height: 35px;
-  background: #eee;
+  margin: 5px 3px;
+  outline: none;
+  font-weight: 700;
+  display: flex;
+  color: black;
+  background-color: #bfbfbf;
+  border: none;
+  box-shadow: 0 3px #a7a5a5;
+  justify-content: center;
+  align-items: center;
+}
+.cell:active {
+  background-color: #8d8d8d;
+  box-shadow: 0 4px #979797;
+  transform: translateY(2px);
 }
 .cell .mine {
   background-color: tomato;
   color: white;
+}
+
+.cell.cell-0 {
+  background-color: #f3f3f3;
+  border: none;
+  box-shadow: 0 3px #f3f3f3;
+  /* margin: 2.5px 2.5px; */
+  cursor: not-allowed;
+}
+
+.cell.cell-1 {
+  background-color: #6eb6ff;
+  border: none;
+  box-shadow: 0 3px #7098da;
+  cursor: not-allowed;
+}
+
+.cell.cell-2 {
+  background-color: #fee715ff;
+  border: none;
+  box-shadow: 0 3px #ff7748;
+  cursor: not-allowed;
+}
+.cell.cell-3 {
+  background-color: #be97dc;
+  border: none;
+  box-shadow: 0 3px #a374d5;
+  cursor: not-allowed;
+}
+.cell.cell-4 {
+  background-color: #ffd3b6;
+  border: none;
+  box-shadow: 0 3px #ffaaa5;
+  cursor: not-allowed;
+}
+.cell.cell-5 {
+  background-color: #99f3bd;
+  border: none;
+  box-shadow: 0 3px #28df99;
+  cursor: not-allowed;
+}
+.cell.cell-6 {
+  background-color: #35b0ab;
+  border: none;
+  box-shadow: 0 3px #226b80;
+  cursor: not-allowed;
+}
+.cell.cell-7 {
+  background-color: #32ff6a;
+  border: none;
+  box-shadow: 0 3px #27aa80;
+  cursor: not-allowed;
+}
+.cell.cell-8 {
+  background-color: #fe4a49;
+  border: none;
+  box-shadow: 0 3px #cf3939;
+  cursor: not-allowed;
 }

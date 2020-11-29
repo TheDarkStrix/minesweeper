@@ -9,7 +9,7 @@ export default function Cell(props) {
         (props.value === "*"
           ? " mine"
           : props.value !== null
-          ? " " + props.value
+          ? " cell-" + props.value
           : "")
       }
       onClick={props.onClick}
