@@ -24,7 +24,7 @@ export default class Board extends Component {
   render() {
     return (
       <div className="Board">
-        {this.props.game.map((value, key) => this.renderRow(key, value))}
+        {this.props.board.map((value, key) => this.renderRow(key, value))}
       </div>
     )
   }

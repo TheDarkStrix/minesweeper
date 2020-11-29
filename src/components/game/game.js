@@ -3,214 +3,228 @@ import "./game.css"
 import Board from "../board/board"
 
 export default class Game extends Component {
-  height = 9
-  width = 9
-  mines = 10
-
   constructor(props) {
     super(props)
     this.state = this.getInitialState()
-    console.log(this.state)
   }
 
-  getInitialState() {
+  restartGame(...args) {
+    this.setState(this.getInitialState(...args))
+  }
+
+  getInitialState(height = 9, width = 9, mines = 10) {
     return {
-      sudoMode: this.generateGame(),
-      game: this.generateArray(null),
-      gameOver: false,
+      height: height,
+      width: width,
+      mines: mines,
+      minesCount: mines,
+      board: this.generateArray(height, width, null),
+      solution: null,
       gameStatus: "🙂",
-      minesCount: this.mines,
+      gameStarted: false,
+      gameOver: false,
     }
   }
 
   handleClick(row, column) {
-    const game = this.state.game.slice()
-    console.log(game)
-    console.log(this.state.gameOver)
+    let board = this.state.board.slice()
+    let solution
 
-    // check for game over or if cell is revealed already
-    if (this.state.gameOver || game[row][column] !== null) {
+    if (!this.state.solution) {
+      solution = this.generateGame(
+        this.state.height,
+        this.state.width,
+        row,
+        column,
+        this.state.mines
+      )
+      this.setState({ gameStarted: true, solution: solution })
+    } else {
+      solution = this.state.solution.slice()
+    }
+
+    if (this.state.gameOver || board[row][column] !== null) {
       return
     }
 
-    this.reveal(game, row, column)
+    this.reveal(board, solution, row, column)
 
-    this.updateGameStatus(game, row, column)
+    this.updateGameStatus(board, solution, row, column)
   }
 
   handleRightClick(event, row, column) {
-    const game = this.state.game.slice()
+    let board = this.state.board.slice()
     event.preventDefault()
 
-    let value = game[row][column]
+    let value = board[row][column]
     if (this.state.gameOver || (value !== null && value !== "🚩")) {
       return
     }
 
-    game[row][column] = value ? null : "🚩"
-    const minesCount = this.state.minesCount + (game[row][column] ? -1 : 1)
+    board[row][column] = value ? null : "🚩"
+    const minesCount = this.state.minesCount + (board[row][column] ? -1 : 1)
 
-    this.setState({ ...game, minesCount })
+    this.setState({ board, minesCount })
   }
 
-  reveal(cells, row, column) {
-    if (!this.inRange(row, column) || cells[row][column] !== null) {
+  reveal(board, solution, row, column) {
+    if (!this.inRange(row, column) || board[row][column] !== null) {
       return
     }
 
-    cells[row][column] = this.state.sudoMode[row][column]
-    //reveal if cell value is 0
-    if (cells[row][column] === 0) {
-      this.expand(cells, row, column)
-      //console.log("cells " + cells, "rows " + row, "column" + column)
+    board[row][column] = solution[row][column]
+
+    if (board[row][column] === 0) {
+      this.expand(board, solution, row, column)
     }
   }
 
-  expand(cells, row, column) {
-    // reveal touching cells of a cell
-    this.reveal(cells, row, column - 1)
-    this.reveal(cells, row, column + 1)
-    this.reveal(cells, row - 1, column)
-    this.reveal(cells, row + 1, column)
-    this.reveal(cells, row - 1, column - 1)
-    this.reveal(cells, row - 1, column + 1)
-    this.reveal(cells, row + 1, column + 1)
-    this.reveal(cells, row + 1, column - 1)
-  }
-
-  updateGameStatus(cells, row, column) {
-    if (this.isMine(cells, row, column)) {
-      cells = cells.map((row, rowKey) =>
-        row.map((cell, cellKey) => {
-          const isMine = this.isMine(this.state.sudoMode, rowKey, cellKey)
-          if (cell === "🚩") {
-            // if flag placed at wrong mine cell
-            return isMine ? cell : "❌"
-          }
-
-          return isMine ? "B" : cell
-        })
-      )
-
-      return this.setState({
-        game: cells,
-        gameOver: true,
-        gameStatus: "💀",
-      })
-    }
-
-    //check if game is won
-    const gameOver = !this.continueGame(cells)
-    const gameStatus = gameOver ? "😎" : this.state.gameStatus
-    let minesCount = this.state.minesCount
-
-    if (gameOver) {
-      cells = this.getPlacedBombs(cells, "🚩")
-      minesCount = 0
-    }
-
-    this.setState({
-      game: cells,
-      gameOver: gameOver,
-      gameStatus: gameStatus,
-      minesCount: minesCount,
-    })
-  }
-
-  getPlacedBombs(cells, symbol) {
-    return cells.map((row, rowKey) =>
-      row.map((cell, cellKey) =>
-        this.isMine(this.state.sudoMode, rowKey, cellKey)
-          ? symbol
-          : this.state.sudoMode[rowKey][cellKey]
-      )
-    )
-  }
-
-  continueGame(cells) {
-    // checks if player can continue the game
-    //console.log(Array.isArray(cells))
-    return (
-      cells.flat().filter(cel => cel === null || cel === "🚩").length >
-      this.mines
-    )
+  expand(board, solution, row, column) {
+    this.reveal(board, solution, row, column - 1)
+    this.reveal(board, solution, row, column + 1)
+    this.reveal(board, solution, row - 1, column)
+    this.reveal(board, solution, row + 1, column)
+    this.reveal(board, solution, row - 1, column - 1)
+    this.reveal(board, solution, row - 1, column + 1)
+    this.reveal(board, solution, row + 1, column + 1)
+    this.reveal(board, solution, row + 1, column - 1)
   }
 
   randomInRange(minimum, maximum) {
-    // generate random in board
-    return Math.round(Math.random() * (maximum - minimum) + minimum)
-  }
-
-  // [][]
-  generateArray(value) {
-    return Array.from({ length: this.height }, () =>
-      Array.from({ length: this.width }, () => value)
-    )
-  }
-
-  generateGame() {
-    const cells = this.generateArray(0)
-    let generatedMines = 0
-    let row
-    let column
-
-    while (generatedMines < this.mines) {
-      row = this.randomInRange(0, this.height - 1)
-      column = this.randomInRange(0, this.width - 1)
-
-      if (!this.isMine(cells, row, column)) {
-        cells[row][column] = "B"
-        // after placing mine, increment touching cells
-        this.incrementCell(cells, row, column - 1)
-        this.incrementCell(cells, row, column + 1)
-        this.incrementCell(cells, row - 1, column)
-        this.incrementCell(cells, row + 1, column)
-        this.incrementCell(cells, row - 1, column - 1)
-        this.incrementCell(cells, row - 1, column + 1)
-        this.incrementCell(cells, row + 1, column + 1)
-        this.incrementCell(cells, row + 1, column - 1)
-        generatedMines++
-      }
-    }
-
-    return cells
-  }
-
-  incrementCell(cells, row, column) {
-    if (this.inRange(row, column) && !this.isMine(cells, row, column)) {
-      cells[row][column] = cells[row][column] + 1
-    }
+    return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
   }
 
   isMine(cells, row, column) {
     return cells[row][column] === "B"
   }
 
+  generateArray(height, width, value) {
+    return Array.from({ length: height }, () =>
+      Array.from({ length: width }, () => value)
+    )
+  }
+
+  getSolution(board, solution, symbol) {
+    return board.map((row, rowKey) =>
+      row.map((cell, squareKey) =>
+        this.isMine(solution, rowKey, squareKey)
+          ? symbol
+          : solution[rowKey][squareKey]
+      )
+    )
+  }
+
+  // check if the game can be continued
+  doContinueGame(cells, mines) {
+    return cells.flat().filter(cl => cl === null || cl === "🚩").length > mines
+  }
+
+  updateGameStatus(board, solution, row, column) {
+    if (this.isMine(board, row, column)) {
+      return this.setGameOver(board, solution, row, column)
+    }
+
+    const gameOver = !this.doContinueGame(board, this.state.mines)
+    const gameStatus = gameOver ? "😎" : this.state.gameStatus
+    let minesCount = this.state.minesCount
+
+    if (gameOver) {
+      board = this.getSolution(board, solution, "🚩")
+      minesCount = 0
+    }
+
+    this.setState({ board, gameOver, gameStatus, minesCount })
+  }
+
+  setGameOver(board, solution, row, column) {
+    board = board.map((row, rowKey) =>
+      row.map((cell, squareKey) => {
+        const isMine = this.isMine(solution, rowKey, squareKey)
+        if (cell === "🚩") {
+          return isMine ? cell : "❌"
+        }
+
+        return isMine ? "B" : cell
+      })
+    )
+
+    this.setState({
+      board,
+      gameOver: true,
+      gameStatus: "💀",
+    })
+  }
+
+  generateGame(height, width, currentRow, currentColumn, mines) {
+    const board = this.generateArray(height, width, 0)
+    let generatedMines = 0
+    let row
+    let column
+
+    while (generatedMines < mines) {
+      row = this.randomInRange(0, height - 1)
+      column = this.randomInRange(0, width - 1)
+
+      if (
+        !this.isMine(board, row, column) &&
+        !(currentRow === row && currentColumn === column)
+      ) {
+        board[row][column] = "B"
+        this.incrementCell(board, row - 1, column)
+        this.incrementCell(board, row + 1, column)
+        this.incrementCell(board, row, column - 1)
+        this.incrementCell(board, row, column + 1)
+        this.incrementCell(board, row - 1, column - 1)
+        this.incrementCell(board, row - 1, column + 1)
+        this.incrementCell(board, row + 1, column + 1)
+        this.incrementCell(board, row + 1, column - 1)
+        generatedMines++
+      }
+    }
+
+    return board
+  }
+
+  // after generating mines , increment touching cells
+  incrementCell(board, row, column) {
+    if (this.inRange(row, column) && !this.isMine(board, row, column)) {
+      board[row][column] = board[row][column] + 1
+    }
+  }
+
   inRange(row, column) {
-    // return boolean if inside board
-    return row >= 0 && column >= 0 && row < this.height && column < this.width
+    return (
+      row >= 0 &&
+      row < this.state.height &&
+      column >= 0 &&
+      column < this.state.width
+    )
   }
 
   render() {
     return (
       <div className="game">
-        <div>
-          <div>
-            <button onClick={() => this.setState(this.getInitialState())}>
-              {this.state.gameStatus}
-            </button>
-          </div>
-        </div>
+        <button
+          onClick={() =>
+            this.setState(
+              this.getInitialState(
+                this.state.height,
+                this.state.width,
+                this.state.mines
+              )
+            )
+          }
+        >
+          {this.state.gameStatus}
+        </button>
         <Board
           onClick={(row, column) => this.handleClick(row, column)}
           onRightClick={(event, row, column) =>
             this.handleRightClick(event, row, column)
           }
-          game={this.state.game}
+          board={this.state.board}
+          gameOver={this.state.gameOver}
         />
-        <button onClick={() => console.log(this.state.sudoMode)}>
-          sudo Mode
-        </button>
       </div>
     )
   }
