@@ -1,21 +1,37 @@
-import React from "react"
+import React, { Component } from "react"
 import "./cell.css"
 
-export default function Cell(props) {
-  return (
-    <button
-      className={
-        "cell" +
-        (props.value === "*"
-          ? " mine"
-          : props.value !== null
-          ? " cell-" + props.value
-          : "")
-      }
-      onClick={props.onClick}
-      onContextMenu={props.onRightClick}
-    >
-      {props.value ? props.value : ""}
-    </button>
-  )
+export default class Cell extends Component {
+  constructor(props) {
+    super(props)
+  }
+  gameIcons = {
+    bomb: "💣",
+    flag: "🚩",
+    exploded: "❌",
+  }
+
+  getIcon(value) {
+    // check undefined vs. value
+    return this.gameIcons[value] || (value ? value : null)
+  }
+
+  render() {
+    return (
+      <button
+        className={
+          "cell" +
+          (this.props.value === "*"
+            ? " mine"
+            : this.props.value !== null
+            ? " cell-" + this.props.value
+            : "")
+        }
+        onClick={this.props.onClick}
+        onContextMenu={this.props.onRightClick}
+      >
+        {this.props.value ? this.getIcon(this.props.value) : ""}
+      </button>
+    )
+  }
 }

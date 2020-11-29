@@ -58,11 +58,11 @@ export default class Game extends Component {
     event.preventDefault()
 
     let value = board[row][column]
-    if (this.state.gameOver || (value !== null && value !== "🚩")) {
+    if (this.state.gameOver || (value !== null && value !== "flag")) {
       return
     }
 
-    board[row][column] = value ? null : "🚩"
+    board[row][column] = value ? null : "flag"
     const minesCount = this.state.minesCount + (board[row][column] ? -1 : 1)
 
     this.setState({ board, minesCount })
@@ -96,7 +96,7 @@ export default class Game extends Component {
   }
 
   isMine(cells, row, column) {
-    return cells[row][column] === "B"
+    return cells[row][column] === "bomb"
   }
 
   generateArray(height, width, value) {
@@ -117,7 +117,9 @@ export default class Game extends Component {
 
   // check if the game can be continued
   doContinueGame(cells, mines) {
-    return cells.flat().filter(cl => cl === null || cl === "🚩").length > mines
+    return (
+      cells.flat().filter(cl => cl === null || cl === "flag").length > mines
+    )
   }
 
   updateGameStatus(board, solution, row, column) {
@@ -130,7 +132,7 @@ export default class Game extends Component {
     let minesCount = this.state.minesCount
 
     if (gameOver) {
-      board = this.getSolution(board, solution, "🚩")
+      board = this.getSolution(board, solution, "flag")
       minesCount = 0
     }
 
@@ -141,11 +143,11 @@ export default class Game extends Component {
     board = board.map((row, rowKey) =>
       row.map((cell, squareKey) => {
         const isMine = this.isMine(solution, rowKey, squareKey)
-        if (cell === "🚩") {
-          return isMine ? cell : "❌"
+        if (cell === "flag") {
+          return isMine ? cell : "exploded"
         }
 
-        return isMine ? "B" : cell
+        return isMine ? "bomb" : cell
       })
     )
 
@@ -182,7 +184,7 @@ export default class Game extends Component {
         !this.isMine(board, row, column) &&
         !(currentRow === row && currentColumn === column)
       ) {
-        board[row][column] = "B"
+        board[row][column] = "bomb"
         this.incrementCell(board, row - 1, column)
         this.incrementCell(board, row + 1, column)
         this.incrementCell(board, row, column - 1)
