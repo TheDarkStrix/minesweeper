@@ -75,6 +75,12 @@
   cursor: not-allowed;
 }
 .cell.cell-8 {
+  background-color: #fe8b49;
+  border: none;
+  box-shadow: 0 3px #e23b24;
+  cursor: not-allowed;
+}
+.cell.cell-bomb_exploded {
   background-color: #fe4a49;
   border: none;
   box-shadow: 0 3px #cf3939;

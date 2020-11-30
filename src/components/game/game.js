@@ -1,16 +1,19 @@
 import React, { Component } from "react"
 import "./game.css"
 import Board from "../board/board"
+import { withSnackbar } from "react-simple-snackbar"
 
-export default class Game extends Component {
+class Game extends Component {
   constructor(props) {
     super(props)
     this.state = this.getInitialState()
     this.sudoMode = this.sudoMode.bind(this)
+    this.setGameWon = this.setGameWon.bind(this)
   }
 
   restartGame(...args) {
     this.setState(this.getInitialState(...args))
+    this.props.openSnackbar("Game Restarted")
   }
 
   getInitialState(height = 9, width = 9, mines = 10) {
@@ -128,7 +131,7 @@ export default class Game extends Component {
     }
 
     const gameOver = !this.doContinueGame(board, this.state.mines)
-    const gameStatus = gameOver ? "😎" : this.state.gameStatus
+    const gameStatus = gameOver ? this.setGameWon() : this.state.gameStatus
     let minesCount = this.state.minesCount
 
     if (gameOver) {
@@ -137,6 +140,11 @@ export default class Game extends Component {
     }
 
     this.setState({ board, gameOver, gameStatus, minesCount })
+  }
+
+  setGameWon() {
+    this.props.openSnackbar("You Won !")
+    return "💀"
   }
 
   setGameOver(board, solution, row, column) {
@@ -150,7 +158,8 @@ export default class Game extends Component {
         return isMine ? "bomb" : cell
       })
     )
-
+    if (row || column !== undefined) board[row][column] = "bomb_exploded"
+    this.props.openSnackbar("Game Over !")
     this.setState({
       board,
       gameOver: true,
@@ -222,7 +231,7 @@ export default class Game extends Component {
         <button
           onClick={() =>
             this.setState(
-              this.getInitialState(
+              this.restartGame(
                 this.state.height,
                 this.state.width,
                 this.state.mines
@@ -245,3 +254,5 @@ export default class Game extends Component {
     )
   }
 }
+
+export default withSnackbar(Game)

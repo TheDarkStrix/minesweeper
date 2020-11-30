@@ -7,6 +7,7 @@ export default class Cell extends Component {
   }
   gameIcons = {
     bomb: "💣",
+    bomb_exploded: "💣",
     flag: "🚩",
     exploded: "❌",
   }
