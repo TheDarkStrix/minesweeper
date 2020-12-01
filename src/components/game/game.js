@@ -2,6 +2,21 @@ import React, { Component } from "react"
 import "./game.css"
 import Board from "../board/board"
 import { withSnackbar } from "react-simple-snackbar"
+import Confetti from "react-dom-confetti"
+
+const config = {
+  angle: 90,
+  spread: 60,
+  startVelocity: 40,
+  elementCount: 70,
+  dragFriction: 0.12,
+  duration: 3000,
+  stagger: 3,
+  width: "10px",
+  height: "10px",
+  perspective: "500px",
+  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
+}
 
 class Game extends Component {
   constructor(props) {
@@ -27,6 +42,7 @@ class Game extends Component {
       gameStatus: "🙂",
       gameStarted: false,
       gameOver: false,
+      gameWon: false,
     }
   }
 
@@ -144,6 +160,7 @@ class Game extends Component {
 
   setGameWon() {
     this.props.openSnackbar("You Won !")
+    this.setState({ gameWon: true })
     return "💀"
   }
 
@@ -163,6 +180,7 @@ class Game extends Component {
     this.setState({
       board,
       gameOver: true,
+      gameWon: false,
       gameStatus: "💀",
     })
   }
@@ -249,7 +267,13 @@ class Game extends Component {
           board={this.state.board}
           gameOver={this.state.gameOver}
         />
+        <div class="conc">
+          <div className="con">
+            <Confetti active={this.state.gameWon} config={config} />
+          </div>
+        </div>
         <button onClick={this.sudoMode}>Reveal Mines</button>
+        {/* <button onClick={this.setGameWon}>Reveal Mines</button> */}
       </div>
     )
   }

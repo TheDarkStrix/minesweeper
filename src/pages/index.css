@@ -1,0 +1,8 @@
+body {
+  overflow: hidden;
+  height: 100%;
+}
+
+.ScrollbarsCustom-TrackY {
+  right: 14px !important;
+}
