@@ -1,5 +1,6 @@
-.game {
-  text-align: center;
+.gameParent {
+  display: flex;
+  justify-content: center;
 }
 
 .con {
@@ -16,4 +17,37 @@
 }
 
 .gameStatus {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.minesCountParent,
+.difficultyParent {
+  display: flex;
+  align-items: center;
+}
+
+.flag,
+.difficulty {
+  margin-right: 0.5em;
+}
+
+.flag img,
+.difficulty img {
+  filter: invert(1);
+}
+
+.minesCount,
+.difficultyTitle {
+  font-size: 1.2em;
+  color: white;
+}
+
+.gameStatusIcon {
+  cursor: pointer;
+}
+
+.gameStatusIcon img {
+  filter: invert(1);
 }
