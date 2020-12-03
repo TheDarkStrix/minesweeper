@@ -246,34 +246,38 @@ class Game extends Component {
   render() {
     return (
       <div className="game">
-        <button
-          onClick={() =>
-            this.setState(
-              this.restartGame(
-                this.state.height,
-                this.state.width,
-                this.state.mines
-              )
-            )
-          }
-        >
-          {this.state.gameStatus}
-        </button>
-        <Board
-          onClick={(row, column) => this.handleClick(row, column)}
-          onRightClick={(event, row, column) =>
-            this.handleRightClick(event, row, column)
-          }
-          board={this.state.board}
-          gameOver={this.state.gameOver}
-        />
-        <div class="conc">
-          <div className="con">
-            <Confetti active={this.state.gameWon} config={config} />
+        <div>
+          <div className="gameStatus">
+            <button
+              onClick={() =>
+                this.setState(
+                  this.restartGame(
+                    this.state.height,
+                    this.state.width,
+                    this.state.mines
+                  )
+                )
+              }
+            >
+              {this.state.gameStatus}
+            </button>
           </div>
+          <Board
+            onClick={(row, column) => this.handleClick(row, column)}
+            onRightClick={(event, row, column) =>
+              this.handleRightClick(event, row, column)
+            }
+            board={this.state.board}
+            gameOver={this.state.gameOver}
+          />
+          <div class="conc">
+            <div className="con">
+              <Confetti active={this.state.gameWon} config={config} />
+            </div>
+          </div>
+          <button onClick={this.sudoMode}>Reveal Mines</button>
+          <button onClick={this.setGameWon}>Reveal Mines</button>
         </div>
-        <button onClick={this.sudoMode}>Reveal Mines</button>
-        {/* <button onClick={this.setGameWon}>Reveal Mines</button> */}
       </div>
     )
   }

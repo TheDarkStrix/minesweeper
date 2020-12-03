@@ -7,7 +7,7 @@
   font-weight: 700;
   display: flex;
   color: black;
-  background-color: #bfbfbf;
+  background-color: white;
   border: none;
   box-shadow: 0 3px #a7a5a5;
   justify-content: center;
@@ -24,9 +24,9 @@
 }
 
 .cell.cell-0 {
-  background-color: #f3f3f3;
+  background-color: rgba(0, 0, 0, 0);
   border: none;
-  box-shadow: 0 3px #f3f3f3;
+  box-shadow: 0 3px transparent;
   /* margin: 2.5px 2.5px; */
   cursor: not-allowed;
 }
@@ -45,37 +45,37 @@
   cursor: not-allowed;
 }
 .cell.cell-3 {
-  background-color: #be97dc;
+  background-color: #87c232;
   border: none;
-  box-shadow: 0 3px #a374d5;
+  box-shadow: 0 3px #689727;
   cursor: not-allowed;
 }
 .cell.cell-4 {
-  background-color: #ffd3b6;
+  background-color: #a64ac9;
   border: none;
-  box-shadow: 0 3px #ffaaa5;
+  box-shadow: 0 3px #7b3597;
   cursor: not-allowed;
 }
 .cell.cell-5 {
-  background-color: #99f3bd;
+  background-color: #2d9cca;
   border: none;
-  box-shadow: 0 3px #28df99;
+  box-shadow: 0 3px #217aa0;
   cursor: not-allowed;
 }
 .cell.cell-6 {
-  background-color: #35b0ab;
+  background-color: #13a76b;
   border: none;
-  box-shadow: 0 3px #226b80;
+  box-shadow: 0 3px #0f8b5a;
   cursor: not-allowed;
 }
 .cell.cell-7 {
-  background-color: #32ff6a;
+  background-color: #ffe401;
   border: none;
-  box-shadow: 0 3px #27aa80;
+  box-shadow: 0 3px #dac400;
   cursor: not-allowed;
 }
 .cell.cell-8 {
-  background-color: #fe8b49;
+  background-color: #ff652f;
   border: none;
   box-shadow: 0 3px #e23b24;
   cursor: not-allowed;
