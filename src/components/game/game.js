@@ -3,6 +3,7 @@ import "./game.css"
 import Board from "../board/board"
 import { withSnackbar } from "react-simple-snackbar"
 import Confetti from "react-dom-confetti"
+import { options } from "../../config/snackbar-config"
 
 import flag from "../../includes/img/flag.svg"
 import difficulty from "../../includes/img/difficulty.svg"
@@ -327,4 +328,4 @@ class Game extends Component {
   }
 }
 
-export default withSnackbar(Game)
+export default withSnackbar(Game, options)
