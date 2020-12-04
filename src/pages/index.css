@@ -29,21 +29,3 @@ body {
 .minesweeper:hover {
   transform: scale(1.1);
 }
-
-.revealMines {
-  border: 3px solid #00c203;
-  border-radius: 50%;
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.revealMines img {
-  filter: invert(1);
-  width: 34px;
-  color: white;
-}

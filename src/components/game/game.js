@@ -9,7 +9,8 @@ import flag from "../../includes/img/flag.svg"
 import difficulty from "../../includes/img/difficulty.svg"
 import smile from "../../includes/img/smile.svg"
 import danger from "../../includes/img/danger.svg"
-import cool from "../../includes/img/danger.svg"
+import cool from "../../includes/img/cool.svg"
+import GameOptions from "../options/options"
 
 const config = {
   angle: 90,
@@ -205,12 +206,14 @@ class Game extends Component {
   sudoMode() {
     if (this.state.solution != null) {
       console.log(this.state.solution)
-      this.setGameOver(
-        this.state.board,
-        this.state.solution,
-        this.state.row,
-        this.state.column
-      )
+      // this.setGameOver(
+      //   this.state.board,
+      //   this.state.solution,
+      //   this.state.row,
+      //   this.state.column
+      // )
+    } else {
+      this.props.openSnackbar("Make your first move !")
     }
   }
 
@@ -262,31 +265,33 @@ class Game extends Component {
 
   render() {
     return (
-      <div className="gameParent">
-        <div className="game">
-          <div className="gameStatus">
-            <div className="minesCountParent">
-              <span className="flag">
-                <img src={flag} />
-              </span>
-              <span className="minesCount">{this.state.minesCount}</span>
-            </div>
-            <div>
-              <div
-                className="gameStatusIcon"
-                onClick={() =>
-                  this.setState(
-                    this.restartGame(
-                      this.state.height,
-                      this.state.width,
-                      this.state.mines
-                    )
-                  )
-                }
-              >
-                <img src={this.getGameStatus(this.state.gameStatus)} />
+      <>
+        <GameOptions sudoMode={this.sudoMode} />
+        <div className="gameParent">
+          <div className="game">
+            <div className="gameStatus">
+              <div className="minesCountParent">
+                <span className="flag">
+                  <img src={flag} />
+                </span>
+                <span className="minesCount">{this.state.minesCount}</span>
               </div>
-              {/* <button
+              <div>
+                <div
+                  className="gameStatusIcon"
+                  onClick={() =>
+                    this.setState(
+                      this.restartGame(
+                        this.state.height,
+                        this.state.width,
+                        this.state.mines
+                      )
+                    )
+                  }
+                >
+                  <img src={this.getGameStatus(this.state.gameStatus)} />
+                </div>
+                {/* <button
                 onClick={() =>
                   this.setState(
                     this.restartGame(
@@ -299,31 +304,31 @@ class Game extends Component {
               >
                 {this.state.gameStatus}
               </button> */}
+              </div>
+              <div className="difficultyParent">
+                <span className="difficulty">
+                  <img src={difficulty} />
+                </span>
+                <span className="difficultyTitle">EASY</span>
+              </div>
             </div>
-            <div className="difficultyParent">
-              <span className="difficulty">
-                <img src={difficulty} />
-              </span>
-              <span className="difficultyTitle">EASY</span>
+            <Board
+              onClick={(row, column) => this.handleClick(row, column)}
+              onRightClick={(event, row, column) =>
+                this.handleRightClick(event, row, column)
+              }
+              board={this.state.board}
+              gameOver={this.state.gameOver}
+            />
+            <div class="conc">
+              <div className="con">
+                <Confetti active={this.state.gameWon} config={config} />
+              </div>
             </div>
+            <button onClick={this.setGameWon}>Reveal Mines</button>
           </div>
-          <Board
-            onClick={(row, column) => this.handleClick(row, column)}
-            onRightClick={(event, row, column) =>
-              this.handleRightClick(event, row, column)
-            }
-            board={this.state.board}
-            gameOver={this.state.gameOver}
-          />
-          <div class="conc">
-            <div className="con">
-              <Confetti active={this.state.gameWon} config={config} />
-            </div>
-          </div>
-          <button onClick={this.sudoMode}>Reveal Mines</button>
-          <button onClick={this.setGameWon}>Reveal Mines</button>
         </div>
-      </div>
+      </>
     )
   }
 }
