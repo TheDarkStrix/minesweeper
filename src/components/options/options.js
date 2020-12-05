@@ -2,19 +2,10 @@ import React, { Component } from "react"
 import revealMines from "../../includes/img/mine.svg"
 import difficulty from "../../includes/img/difficulty.svg"
 
-import {
-  Fab,
-  Action,
-  mainButtonStyles,
-  actionButtonStyles,
-} from "react-tiny-fab"
+import { Fab, Action } from "react-tiny-fab"
 import "react-tiny-fab/dist/styles.css"
 
 export default class GameOptions extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   challengeMainbtn = {
     backgroundColor: "white",
     boxShadow: "none",
@@ -41,12 +32,12 @@ export default class GameOptions extends Component {
   render() {
     return (
       <div>
-        <div class="minesweeper">minesweeper</div>
+        <div className="minesweeper">minesweeper</div>
 
         <Fab
-          mainButtonStyles={(mainButtonStyles, this.challengeMainbtn)}
-          actionButtonStyles={this.actionbtn}
-          icon={<img src={difficulty} />}
+          mainButtonStyles={("mainButtonStyles", this.challengeMainbtn)}
+          actionbuttonstyles={this.actionbtn}
+          icon={<img src={difficulty} alt="difficultyBtn" />}
           alwaysShowTitle={true}
           event="hover"
           style={this.challengeStyle}
@@ -79,7 +70,7 @@ export default class GameOptions extends Component {
             text="Reveal Mines"
             onClick={this.props.sudoMode}
           >
-            <img style={{ maxWidth: "70%" }} src={revealMines} />
+            <img style={{ maxWidth: "70%" }} src={revealMines} alt="mineBtn" />
           </Action>
         </Fab>
       </div>

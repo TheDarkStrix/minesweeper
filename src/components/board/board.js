@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Cell from "../cell/cell"
 import "./board.css"
+
 export default class Board extends Component {
   renderCell(row, column, value) {
     return (

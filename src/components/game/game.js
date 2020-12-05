@@ -42,7 +42,6 @@ class Game extends Component {
   }
 
   restartGame(...args) {
-    console.log(...args)
     this.setState(this.getInitialState(...args))
     this.props.openSnackbar("Game Restarted")
   }
@@ -208,7 +207,6 @@ class Game extends Component {
 
   sudoMode() {
     if (this.state.solution != null) {
-      console.log(this.state.solution)
       this.setGameOver(
         this.state.board,
         this.state.solution,
@@ -273,13 +271,16 @@ class Game extends Component {
         <div className="gameStatus">
           <div className="minesCountParent">
             <span className="flag">
-              <img src={flag} />
+              <img src={flag} alt="flag" />
             </span>
             <span className="minesCount">{this.state.minesCount}</span>
           </div>
           <div>
             <div
               className="gameStatusIcon"
+              onKeyDown={() => 0}
+              role="button"
+              tabIndex={0}
               onClick={() =>
                 this.setState(
                   this.restartGame(
@@ -291,12 +292,15 @@ class Game extends Component {
                 )
               }
             >
-              <img src={this.getGameStatus(this.state.gameStatus)} />
+              <img
+                src={this.getGameStatus(this.state.gameStatus)}
+                alt="gamePlay"
+              />
             </div>
           </div>
           <div className="difficultyParent">
             <span className="difficulty">
-              <img src={difficulty} />
+              <img src={difficulty} alt="difficulty" />
             </span>
             <span className="difficultyTitle">{this.state.difficulty}</span>
           </div>
@@ -311,15 +315,11 @@ class Game extends Component {
               board={this.state.board}
               gameOver={this.state.gameOver}
             />
-            <div class="conc">
+            <div className="conc">
               <div className="con">
                 <Confetti active={this.state.gameWon} config={config} />
               </div>
             </div>
-            {/* <button onClick={this.setGameWon}>Reveal Mines</button>
-            <button onClick={() => this.restartGame(16, 16, 20)}>
-              Reveal Mines
-            </button> */}
           </div>
         </div>
       </>
