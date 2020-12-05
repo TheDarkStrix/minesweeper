@@ -19,7 +19,8 @@
     "react-dom": "^16.12.0",
     "react-dom-confetti": "^0.2.0",
     "react-scrollbars-custom": "^4.0.25",
-    "react-simple-snackbar": "^1.1.10"
+    "react-simple-snackbar": "^1.1.10",
+    "react-tiny-fab": "^4.0.2"
   },
   "devDependencies": {
     "prettier": "2.1.2"

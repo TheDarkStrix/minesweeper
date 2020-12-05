@@ -1,5 +1,5 @@
 export const options = {
-  position: "bottom-right",
+  position: "bottom-left",
   style: {
     backgroundColor: "#52f755",
     border: "2px solid #0c9c0e",
