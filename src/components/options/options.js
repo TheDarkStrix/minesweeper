@@ -48,20 +48,21 @@ export default class GameOptions extends Component {
           actionButtonStyles={this.actionbtn}
           icon={<img src={difficulty} />}
           alwaysShowTitle={true}
+          event="hover"
           style={this.challengeStyle}
           onClick={() => 0}
         >
           <Action
             style={this.challengeMainbtn}
             text="Easy"
-            onClick={() => this.props.restartGame(9, 9, 10)}
+            onClick={() => this.props.restartGame(9, 9, 10, "easy")}
           >
             I
           </Action>
           <Action
             style={this.challengeMainbtn}
             text="Medium"
-            onClick={() => this.props.restartGame(16, 16, 40)}
+            onClick={() => this.props.restartGame(16, 16, 40, "medium")}
           >
             II
           </Action>
@@ -69,7 +70,7 @@ export default class GameOptions extends Component {
             style={this.challengeMainbtn}
             text="Hard"
             // 16 , 30 , 99 makes it too long
-            onClick={() => this.props.restartGame(16, 30, 99)}
+            onClick={() => this.props.restartGame(16, 30, 99, "hard")}
           >
             III
           </Action>

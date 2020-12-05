@@ -51,7 +51,7 @@ class Game extends Component {
     return this.gameStatus[value] || (value ? value : null)
   }
 
-  getInitialState(height = 9, width = 9, mines = 10) {
+  getInitialState(height = 9, width = 9, mines = 10, difficulty = "easy") {
     return {
       height: height,
       width: width,
@@ -63,6 +63,7 @@ class Game extends Component {
       gameStarted: false,
       gameOver: false,
       gameWon: false,
+      difficulty: difficulty,
     }
   }
 
@@ -208,12 +209,12 @@ class Game extends Component {
   sudoMode() {
     if (this.state.solution != null) {
       console.log(this.state.solution)
-      // this.setGameOver(
-      //   this.state.board,
-      //   this.state.solution,
-      //   this.state.row,
-      //   this.state.column
-      // )
+      this.setGameOver(
+        this.state.board,
+        this.state.solution,
+        this.state.row,
+        this.state.column
+      )
     } else {
       this.props.openSnackbar("Make your first move !")
     }
@@ -284,7 +285,8 @@ class Game extends Component {
                   this.restartGame(
                     this.state.height,
                     this.state.width,
-                    this.state.mines
+                    this.state.mines,
+                    this.state.difficulty
                   )
                 )
               }
@@ -296,7 +298,7 @@ class Game extends Component {
             <span className="difficulty">
               <img src={difficulty} />
             </span>
-            <span className="difficultyTitle">EASY</span>
+            <span className="difficultyTitle">{this.state.difficulty}</span>
           </div>
         </div>
         <div className="gameParent">
