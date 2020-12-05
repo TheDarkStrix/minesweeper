@@ -54,21 +54,22 @@ export default class GameOptions extends Component {
           <Action
             style={this.challengeMainbtn}
             text="Easy"
-            onClick={"handleEmailOnClick"}
+            onClick={() => this.props.restartGame(9, 9, 10)}
           >
             I
           </Action>
           <Action
             style={this.challengeMainbtn}
             text="Medium"
-            onClick={"handleEmailOnClick"}
+            onClick={() => this.props.restartGame(16, 16, 40)}
           >
             II
           </Action>
           <Action
             style={this.challengeMainbtn}
             text="Hard"
-            onClick={"handleHelpOnClick"}
+            // 16 , 30 , 99 makes it too long
+            onClick={() => this.props.restartGame(16, 30, 99)}
           >
             III
           </Action>

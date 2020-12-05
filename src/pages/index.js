@@ -16,11 +16,9 @@ import GameOptions from "../components/options/options"
 export default class Index extends Component {
   render() {
     return (
-      <Scrollbar style={{ width: "100vw", height: "100vh" }}>
-        <SnackbarProvider>
-          <Game />
-        </SnackbarProvider>
-      </Scrollbar>
+      <SnackbarProvider>
+        <Game />
+      </SnackbarProvider>
     )
   }
 }

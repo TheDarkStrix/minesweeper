@@ -32,6 +32,7 @@ class Game extends Component {
     this.state = this.getInitialState()
     this.sudoMode = this.sudoMode.bind(this)
     this.setGameWon = this.setGameWon.bind(this)
+    this.restartGame = this.restartGame.bind(this)
   }
 
   gameStatus = {
@@ -41,6 +42,7 @@ class Game extends Component {
   }
 
   restartGame(...args) {
+    console.log(...args)
     this.setState(this.getInitialState(...args))
     this.props.openSnackbar("Game Restarted")
   }
@@ -266,52 +268,39 @@ class Game extends Component {
   render() {
     return (
       <>
-        <GameOptions sudoMode={this.sudoMode} />
+        <GameOptions sudoMode={this.sudoMode} restartGame={this.restartGame} />
+        <div className="gameStatus">
+          <div className="minesCountParent">
+            <span className="flag">
+              <img src={flag} />
+            </span>
+            <span className="minesCount">{this.state.minesCount}</span>
+          </div>
+          <div>
+            <div
+              className="gameStatusIcon"
+              onClick={() =>
+                this.setState(
+                  this.restartGame(
+                    this.state.height,
+                    this.state.width,
+                    this.state.mines
+                  )
+                )
+              }
+            >
+              <img src={this.getGameStatus(this.state.gameStatus)} />
+            </div>
+          </div>
+          <div className="difficultyParent">
+            <span className="difficulty">
+              <img src={difficulty} />
+            </span>
+            <span className="difficultyTitle">EASY</span>
+          </div>
+        </div>
         <div className="gameParent">
           <div className="game">
-            <div className="gameStatus">
-              <div className="minesCountParent">
-                <span className="flag">
-                  <img src={flag} />
-                </span>
-                <span className="minesCount">{this.state.minesCount}</span>
-              </div>
-              <div>
-                <div
-                  className="gameStatusIcon"
-                  onClick={() =>
-                    this.setState(
-                      this.restartGame(
-                        this.state.height,
-                        this.state.width,
-                        this.state.mines
-                      )
-                    )
-                  }
-                >
-                  <img src={this.getGameStatus(this.state.gameStatus)} />
-                </div>
-                {/* <button
-                onClick={() =>
-                  this.setState(
-                    this.restartGame(
-                      this.state.height,
-                      this.state.width,
-                      this.state.mines
-                    )
-                  )
-                }
-              >
-                {this.state.gameStatus}
-              </button> */}
-              </div>
-              <div className="difficultyParent">
-                <span className="difficulty">
-                  <img src={difficulty} />
-                </span>
-                <span className="difficultyTitle">EASY</span>
-              </div>
-            </div>
             <Board
               onClick={(row, column) => this.handleClick(row, column)}
               onRightClick={(event, row, column) =>
@@ -325,7 +314,10 @@ class Game extends Component {
                 <Confetti active={this.state.gameWon} config={config} />
               </div>
             </div>
-            <button onClick={this.setGameWon}>Reveal Mines</button>
+            {/* <button onClick={this.setGameWon}>Reveal Mines</button>
+            <button onClick={() => this.restartGame(16, 16, 20)}>
+              Reveal Mines
+            </button> */}
           </div>
         </div>
       </>

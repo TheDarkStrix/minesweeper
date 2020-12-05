@@ -1,6 +1,13 @@
 .gameParent {
   display: flex;
   justify-content: center;
+  max-width: 100vw;
+  overflow: auto;
+  flex-direction: column;
+}
+
+.game {
+  margin: 0 auto;
 }
 
 .con {
@@ -18,8 +25,14 @@
 
 .gameStatus {
   display: flex;
-  justify-content: space-between;
+  margin: 0 auto;
+  width: 100%;
+  justify-content: center;
   align-items: center;
+}
+
+.gameStatus div {
+  padding: 0 2em;
 }
 
 .minesCountParent,
@@ -50,4 +63,17 @@
 
 .gameStatusIcon img {
   filter: invert(1);
+}
+
+@media only screen and (max-width: 600px) {
+  .gameStatus {
+    display: flex;
+    margin: 0 auto;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .gameStatus div {
+    padding: 0 1em;
+  }
 }
