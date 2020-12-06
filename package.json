@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "gatsby": "^2.26.1",
+    "gatsby-plugin-manifest": "^2.8.0",
+    "gatsby-plugin-offline": "^3.6.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-dom-confetti": "^0.2.0",
